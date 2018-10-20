@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2046
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NokiaHUIServer", "NokiaHUIServer\NokiaHUIServer.csproj", "{C9D7C88E-20FB-4A61-902D-5876161C7811}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C9D7C88E-20FB-4A61-902D-5876161C7811}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9D7C88E-20FB-4A61-902D-5876161C7811}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9D7C88E-20FB-4A61-902D-5876161C7811}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9D7C88E-20FB-4A61-902D-5876161C7811}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {236B636D-DE62-4399-B0BE-663C77582A5C}
+	EndGlobalSection
+EndGlobal
