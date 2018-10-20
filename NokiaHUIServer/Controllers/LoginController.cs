@@ -1,7 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -12,28 +16,31 @@ namespace NokiaHUIServer.Controllers
     [Route("api/[controller]")]
     public class LoginController : Controller
     {
-        private PacientProfileContext _profileDb;
-		private ILogger<LoginController> _logger;
+        private readonly PacientProfileContext _profileDb;
+		private readonly ILogger<LoginController> logger;
 
         public LoginController(PacientProfileContext profileDb, ILogger<LoginController> logger)
         {
             _profileDb = profileDb;
-			_logger = logger;
-
+			this.logger = logger;
 		}
 
         [HttpPost("signin")]
-        public IActionResult Signin([FromBody] SigninModel info)
+		public async Task<IActionResult> Signin([FromBody] SigninModel info)
         {
             bool signinSuccs = false;
-            
-			if (_profileDb.PacientProfiles.Any<PacientProfile>(p => (p.Email == info.Email && p.Passw == info.Passw)))
+            PacientProfile pacient = await _profileDb.PacientProfiles.FirstOrDefaultAsync(p => (p.Email == info.Email && p.Passw == info.Passw));
+			
+			if (pacient != null)
 			{
+				await Authenticate(info.Email); // аутентификация
+
 				signinSuccs = true;
 			}
-
-            if (signinSuccs)
+			
+			if (signinSuccs)
             {
+				//HttpContext.Response.Cookies.Append("email", info.Email);
                 return StatusCode(200); // Sign in is succsessful
             }
             else
@@ -42,20 +49,30 @@ namespace NokiaHUIServer.Controllers
             }
         }
 
-        [HttpPost("signup")]
-        public IActionResult Singup([FromBody] SignupModel info)
+		[HttpPost("signout")]
+		public async void Signout()
+		{
+			await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+		}
+
+		[HttpPost("signup")]
+		public async Task<IActionResult> Singup([FromBody] SignupModel info)
         {
-			bool signupSuccs = true;
-			if (_profileDb.PacientProfiles.Any<PacientProfile>(p => p.Email == info.Email))
+			bool signupSuccs = false;
+			PacientProfile pacient = await _profileDb.PacientProfiles.FirstOrDefaultAsync(p => p.Email == info.Email);
+			if (pacient == null)
 			{
-				signupSuccs = false;
+				signupSuccs = true;
 			}
-			// Find existed profile
 
 			if (signupSuccs)
 			{
+				// Add new profile into db
 				_profileDb.PacientProfiles.Add(new PacientProfile(info));
-				_profileDb.SaveChanges();
+				await _profileDb.SaveChangesAsync();
+
+				await Authenticate(info.Email);
+
 				return StatusCode(201); // Sign up is succsessful
 			}
 			else
@@ -74,6 +91,19 @@ namespace NokiaHUIServer.Controllers
 			}
 
 			return result;
+		}
+
+		private async Task Authenticate(string userName)
+		{
+			// создаем один claim
+			var claims = new List<Claim>
+			{
+				new Claim(ClaimsIdentity.DefaultNameClaimType, userName)
+			};
+			// создаем объект ClaimsIdentity
+			ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
+			// установка аутентификационных куки
+			await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
 		}
 	}
 }
