@@ -28,14 +28,17 @@ namespace NokiaHUIServer
         public void ConfigureServices(IServiceCollection services)
         {
             string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<ProfileDbContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<PacientProfileContext>(options => options.UseSqlServer(connection));
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+			services.AddLogging();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerfactory)
         {
-            if (env.IsDevelopment())
+			loggerfactory.AddConsole(minLevel: LogLevel.Warning);
+			if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }

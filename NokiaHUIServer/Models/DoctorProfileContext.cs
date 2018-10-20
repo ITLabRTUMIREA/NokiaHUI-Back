@@ -5,9 +5,7 @@ using System.Threading.Tasks;
 
 namespace NokiaHUIServer.Models
 {
-    public class LoginInfo
-    {
-        public string Email { get; set; }
-        public string Passw { get; set; }
-    }
+	public class DoctorProfileContext
+	{
+	}
 }
