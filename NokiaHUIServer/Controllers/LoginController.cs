@@ -33,15 +33,14 @@ namespace NokiaHUIServer.Controllers
 			
 			if (pacient != null)
 			{
-				await Authenticate(info.Email); // аутентификация
 
 				signinSuccs = true;
 			}
 			
 			if (signinSuccs)
-            {
-				//HttpContext.Response.Cookies.Append("email", info.Email);
-                return StatusCode(200); // Sign in is succsessful
+			{
+				await Authenticate(info.Email); // аутентификация
+				return StatusCode(200); // Sign in is succsessful
             }
             else
             {

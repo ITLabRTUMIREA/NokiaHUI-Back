@@ -32,6 +32,7 @@ namespace NokiaHUIServer
         {
 			string connection = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<PacientProfileContext>(options => options.UseSqlServer(connection));
+			services.AddDbContext<DoctorProfileContext>(options => options.UseSqlServer(connection));
 			
 			// установка конфигурации подключения
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
@@ -56,12 +57,6 @@ namespace NokiaHUIServer
             {
 
             }
-
-			//app.Use(async (context, next) =>
-			//{
-			//	logger.LogInformation(context.Request.Body.ToString());
-			//	await next.Invoke();
-			//});
 
 			app.UseAuthentication();
 			app.UseMvc();
