@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NokiaHUIServer.Models;
@@ -13,13 +14,14 @@ namespace NokiaHUIServer.Controllers
     [ApiController]
     public class ProfileController : ControllerBase
     {
-		private readonly PacientProfileContext _profileDb;
+		private readonly ProfileContext _profileDb;
 
-		public ProfileController(PacientProfileContext profileDb)
+		public ProfileController(ProfileContext profileDb)
 		{
 			_profileDb = profileDb;
 		}
 
+		[Authorize]
 		[HttpGet("info")]
 		public IActionResult ProfileGet()
 		{
@@ -51,6 +53,7 @@ namespace NokiaHUIServer.Controllers
 			return jsonResult;
 		}
 
+		[Authorize]
 		[HttpPost("info")]
 		public IActionResult ProfilePost(PacientProfile reqProfile) {
 			var email = User.Claims.FirstOrDefault(c => c.Type == ClaimsIdentity.DefaultNameClaimType);
@@ -82,12 +85,14 @@ namespace NokiaHUIServer.Controllers
 			return StatusCode(200);
 		}
 
+		[Authorize]
 		[HttpPut("info")]
 		public IActionResult ProfilePut(PacientProfile reqProfile)
 		{
 			return ProfilePost(reqProfile);
 		}
 
+		[Authorize]
 		[HttpGet("medcard")]
 		public IActionResult MedCardGet()
 		{
@@ -119,6 +124,7 @@ namespace NokiaHUIServer.Controllers
 			return jsonResult;
 		}
 
+		[Authorize]
 		[HttpPost("medcard")]
 		public async Task<IActionResult> MedCardPost(MedCard reqMedCard)
 		{
@@ -153,6 +159,7 @@ namespace NokiaHUIServer.Controllers
 			return StatusCode(200);
 		}
 
+		[Authorize]
 		[HttpPut("medcard")]
 		public async Task<IActionResult> MedCardPut(MedCard reqMedCard)
 		{

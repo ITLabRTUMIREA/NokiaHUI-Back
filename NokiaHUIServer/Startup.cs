@@ -31,8 +31,7 @@ namespace NokiaHUIServer
         public void ConfigureServices(IServiceCollection services)
         {
 			string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<PacientProfileContext>(options => options.UseSqlServer(connection));
-			services.AddDbContext<DoctorProfileContext>(options => options.UseSqlServer(connection));
+            services.AddDbContext<ProfileContext>(options => options.UseSqlServer(connection));
 			
 			// установка конфигурации подключения
 			services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

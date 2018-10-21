@@ -7,7 +7,7 @@ namespace NokiaHUIServer.Models
 {
 	public static class DoctorsInit
 	{
-		public static void Init(DoctorProfileContext context)
+		public static void Init(ProfileContext context)
 		{
 			if (!context.DoctorProfiles.Any())
 			{

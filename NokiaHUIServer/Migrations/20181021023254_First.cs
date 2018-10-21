@@ -8,6 +8,23 @@ namespace NokiaHUIServer.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "DoctorProfiles",
+                columns: table => new
+                {
+                    DoctorProfileId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    Occupation = table.Column<int>(nullable: false),
+                    HospitalName = table.Column<string>(nullable: true),
+                    Experience = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DoctorProfiles", x => x.DoctorProfileId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "MedCard",
                 columns: table => new
                 {
@@ -18,6 +35,7 @@ namespace NokiaHUIServer.Migrations
                     AB0 = table.Column<string>(nullable: true),
                     Rh = table.Column<string>(nullable: true),
                     MedHistory = table.Column<string>(nullable: true),
+                    HospitalName = table.Column<string>(nullable: true),
                     PacientProfileId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -61,6 +79,9 @@ namespace NokiaHUIServer.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "DoctorProfiles");
+
             migrationBuilder.DropTable(
                 name: "PacientProfiles");
 

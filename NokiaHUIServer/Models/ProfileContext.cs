@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace NokiaHUIServer.Models
 {
-	public class DoctorProfileContext : DbContext
+	public class ProfileContext : DbContext
 	{
-		public DoctorProfileContext(DbContextOptions<DoctorProfileContext> options)
+		public ProfileContext(DbContextOptions<ProfileContext> options)
 			: base(options)
 		{
 
 		}
 
+		public DbSet<PacientProfile> PacientProfiles { get; set; }
 		public DbSet<DoctorProfile> DoctorProfiles { get; set; }
 	}
 }

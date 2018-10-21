@@ -16,10 +16,10 @@ namespace NokiaHUIServer.Controllers
     [Route("api/[controller]")]
     public class LoginController : Controller
     {
-        private readonly PacientProfileContext _profileDb;
+        private readonly ProfileContext _profileDb;
 		private readonly ILogger<LoginController> logger;
 
-        public LoginController(PacientProfileContext profileDb, ILogger<LoginController> logger)
+        public LoginController(ProfileContext profileDb, ILogger<LoginController> logger)
         {
             _profileDb = profileDb;
 			this.logger = logger;

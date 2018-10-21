@@ -3,23 +3,42 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using NokiaHUIServer.Models;
 
 namespace NokiaHUIServer.Migrations
 {
-    [DbContext(typeof(PacientProfileContext))]
-    [Migration("20181020200736_First")]
-    partial class First
+    [DbContext(typeof(ProfileContext))]
+    partial class ProfileContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("NokiaHUIServer.Models.DoctorProfile", b =>
+                {
+                    b.Property<int>("DoctorProfileId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Experience");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("HospitalName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<int>("Occupation");
+
+                    b.HasKey("DoctorProfileId");
+
+                    b.ToTable("DoctorProfiles");
+                });
 
             modelBuilder.Entity("NokiaHUIServer.Models.MedCard", b =>
                 {
@@ -30,6 +49,8 @@ namespace NokiaHUIServer.Migrations
                     b.Property<string>("AB0");
 
                     b.Property<int>("Grow");
+
+                    b.Property<string>("HospitalName");
 
                     b.Property<string>("MedHistory");
 
